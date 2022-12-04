@@ -22,3 +22,9 @@ def store(request, slug=None):
     cate= Category.objects.all()
     s = products.count()
     return render(request, 'core/store.html', {'products': products, 's': s, 'categor':cate})
+
+
+
+def prduct_detail(request, slug):
+    product = Product.objects.get(id=slug)
+    return render(request, 'core/product_detail.html', {'product': product})
