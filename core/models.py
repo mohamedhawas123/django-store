@@ -9,6 +9,11 @@ class Category(models.Model):
     description = models.TextField(blank=True)
     cat_image = models.ImageField(upload_to='categories', blank=True)
 
+   
+    
+
+    # def get_url(self):
+    #     return reverse('category_name',  args=[self.slug])
 
     def __str__(self):
         return self.category_name

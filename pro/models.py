@@ -13,3 +13,9 @@ class Product(models.Model):
     category=  models.ForeignKey(Category, related_name='category_product', on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
     modified_data = models.DateTimeField(auto_now=True)
+
+
+    def __str__(self):
+        return self.product_name
+
+        
