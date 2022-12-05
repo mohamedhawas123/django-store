@@ -7,7 +7,7 @@ class Cart(models.Model):
 
 
     def __str__(self):
-        return self.cart_id
+        return str(self.cart_id)
 
 
 
@@ -19,7 +19,9 @@ class CartItem(models.Model):
     quantity = models.IntegerField()
     is_active = models.BooleanField(default=True)
 
-    
+    def get_total(self):
+        return self.quantity * self.product.price
+
     def __str__(self):
-        return self.product
+        return self.product.product_name
 

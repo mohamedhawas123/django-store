@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from pro.models import Product
 from core.models import Category
+from cart.models import CartItem
 
 
 def home(request):
@@ -27,4 +28,5 @@ def store(request, slug=None):
 
 def prduct_detail(request, slug):
     product = Product.objects.get(id=slug)
-    return render(request, 'core/product_detail.html', {'product': product})
+    is_exist=  CartItem.objects.filter(product=product).exists()
+    return render(request, 'core/product_detail.html', {'product': product, 'is_exist': is_exist })
