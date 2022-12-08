@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from pro.models import Product
 from core.models import Category
 from cart.models import CartItem
+from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
+
 
 
 def home(request):
@@ -20,9 +22,13 @@ def store(request, slug=None):
     else:
 
         products = Product.objects.all().filter(is_avaliabel=True)
+        pagin= Paginator(products, 3)
+        page = request.GET.get('page')
+        page_product = pagin.get_page(page)
+        print(page_product)
     cate= Category.objects.all()
     s = products.count()
-    return render(request, 'core/store.html', {'products': products, 's': s, 'categor':cate})
+    return render(request, 'core/store.html', {'products': page_product , 's': s, 'categor':cate})
 
 
 
