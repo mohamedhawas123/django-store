@@ -14,7 +14,7 @@
 </article> <!-- gallery-wrap .end// -->
 		</aside>
 		<main class="col-md-6 border-left">
-			<form method="GET" action="{% url 'addtocart' product.id %}">
+			<form method="POST" action="{% url 'addtocart' product.id %}">
 				{% csrf_token %}
 
 

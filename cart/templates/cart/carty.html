@@ -29,7 +29,17 @@
 		<figure class="itemside align-items-center">
 			<div class="aside"><img src="{{ item.product.images.url }}" class="img-sm"></div>
 			<figcaption class="info">
+				
 				<a href="#" class="title text-dark">{{ item.product.product_name }}</a>
+				<p class="text-muted small">
+					{% if item.variation.all %}
+					{% for it in item.variation.all  %}
+
+					{{it.variation_category |capfirst }} : {{it.variation_value |capfirst }}
+
+					{% endfor %}
+					{% endif %}
+				</p>
 			</figcaption>
 		</figure>
 	</td>

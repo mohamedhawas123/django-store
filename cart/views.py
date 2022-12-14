@@ -12,9 +12,20 @@ def _card_id(request):
     return cart
 
 def add_cart(request, product_id):
-
-
     product = Product.objects.get(id=product_id)
+    product_varriation = []
+    if request.method == 'POST':
+
+        for key, value in request.POST.items():
+            try:
+                variation = Variation.objects.get(product =product, variation_category__iexact=key, variation_value__iexact=value)
+                product_varriation.append(variation)
+            except :
+
+                pass
+        
+
+ 
     try:
         cart= Cart.objects.get(cart_id=_card_id(request))
     except Cart.DoesNotExist:
@@ -25,7 +36,12 @@ def add_cart(request, product_id):
 
     try:
         cart_item = CartItem.objects.get(cart=cart, product=product)
+        if len(product_varriation) > 0:
+            for item in product_varriation:
+
+                cart_item.variation.add(item)
         cart_item.quantity +=1
+       
         cart_item.save()
     except CartItem.DoesNotExist:
 
@@ -33,6 +49,11 @@ def add_cart(request, product_id):
             product = product,
             cart = cart,
             quantity = 1,)
+
+        if len(product_varriation) > 0:
+            for item in product_varriation:
+
+                cart_item.variation.add(item)
         
         cart_item.save()
     
