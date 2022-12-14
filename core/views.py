@@ -4,7 +4,7 @@ from pro.models import Product
 from core.models import Category
 from cart.models import CartItem
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
-
+from pro.models import Variation
 
 
 def home(request):
@@ -19,9 +19,12 @@ def store(request, slug=None):
     products = None
     if slug:
         products = Product.objects.all().filter(category=slug)
+        pagin= Paginator(products, 3)
+        page = request.GET.get('page')
+        page_product = pagin.get_page(page)
     else:
 
-        products = Product.objects.all().filter(is_avaliabel=True)
+        products = Product.objects.all().filter(is_avaliabel=True).order_by('id')
         pagin= Paginator(products, 3)
         page = request.GET.get('page')
         page_product = pagin.get_page(page)
@@ -34,5 +37,27 @@ def store(request, slug=None):
 
 def prduct_detail(request, slug):
     product = Product.objects.get(id=slug)
+
+    size = product.product_variation.all().filter(variation_category='size')
+    color = product.product_variation.all().filter(variation_category='color')
+    
+    
+    
+
     is_exist=  CartItem.objects.filter(product=product).exists()
-    return render(request, 'core/product_detail.html', {'product': product, 'is_exist': is_exist })
+    return render(request, 'core/product_detail.html', {
+        'product': product,'is_exist': is_exist,
+        'color':color ,
+        'size':size
+         })
+
+
+
+
+def search(request):
+        keyword = request.GET.get('keyword')
+        products= Product.objects.all().filter(product_name__icontains=keyword )
+        s = products.count()
+            
+        return render(request, 'core/store.html', {'products': products, 's': s})
+

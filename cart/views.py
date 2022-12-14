@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from pro.models import Product
 from .models import Cart, CartItem
 from django.http import HttpResponse
+from pro.models import Variation
 
 
 def _card_id(request):
@@ -11,6 +12,8 @@ def _card_id(request):
     return cart
 
 def add_cart(request, product_id):
+
+
     product = Product.objects.get(id=product_id)
     try:
         cart= Cart.objects.get(cart_id=_card_id(request))
