@@ -5,12 +5,18 @@ from core.models import Category
 from cart.models import CartItem
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 from pro.models import Variation
+from django.contrib.auth.models import User
 
 
 def home(request):
 
+    user = User()
+    if user is not None:
+        print(User.first_name)
+    else:
+        print("donest exist")
     products = Product.objects.all().filter(is_avaliabel=True)
-    print(products)
+    
     return render(request, 'core/home.html', {'products': products})
 
 

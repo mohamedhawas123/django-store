@@ -12,12 +12,25 @@
       <article class="card-body">
 		<header class="mb-4"><h4 class="card-title">Sign up</h4></header>
 		<form   method="POST" action="{% url 'register' %}"  >
+
+			{% if messages %}
+			{% for message in messages %}
+
+			<div role="alert" {% if message.tags %} class="alert alert-{{message.tags}}"  {% endif %}>
+				<h3 style="color: #bc3636 ;" > {{message}}</h3> 
+
+			</div> 
+			
+			{% endfor %}
+			{% endif %}
+
+
             {% csrf_token %}
             {{form.as_p}}
 				
 				
-				
-				
+			
+				{{forms.errors}}
 			    <div class="form-group">
 			        <button type="submit" class="btn btn-primary btn-block"> Register  </button>
 			    </div> <!-- form-group// -->      

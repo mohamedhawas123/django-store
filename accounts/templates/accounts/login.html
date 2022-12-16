@@ -9,14 +9,27 @@
 
 <!-- ============================ COMPONENT LOGIN   ================================= -->
 	<div class="card mx-auto" style="max-width: 380px; margin-top:100px;">
+
+
+        {% if messages %}
+
+        {% for message in messages %}
+
+        {{message}}
+
+        {% endfor %}
+
+        {% endif %}
+        
       <div class="card-body">
       <h4 class="card-title mb-4">Sign in</h4>
-      <form>
+      <form method="POST" action="{% url 'login' %}"  >
+        {% csrf_token %}
           <div class="form-group">
-			 <input type="email" class="form-control" placeholder="Email Address" >
+			 <input name="email" type="email" class="form-control" placeholder="Email Address" >
           </div> <!-- form-group// -->
           <div class="form-group">
-			<input type="password" class="form-control" placeholder="Password" >
+			<input name="password" type="password" class="form-control" placeholder="Password" >
           </div> <!-- form-group// -->
           
           <div class="form-group">
@@ -24,7 +37,7 @@
            
           </div> <!-- form-group form-check .// -->
           <div class="form-group">
-              <button type="submit" class="btn btn-primary btn-block"> Login  </button>
+              <button class="btn btn-primary btn-block"> Login  </button>
           </div> <!-- form-group// -->    
       </form>
       </div> <!-- card-body.// -->
