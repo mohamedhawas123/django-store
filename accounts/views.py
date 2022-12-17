@@ -9,6 +9,8 @@ from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
 from django.contrib.auth.hashers import make_password, check_password
+from cart.models import AddressUser
+from cart.models import CartItem
 
 
 def login(request):
@@ -113,7 +115,12 @@ def activate(request, uidb64, token):
     
 
 def dash(request):
-    return render(request, 'accounts/dash.html')
+    accountt =AddressUser.objects.get(user=request.user)
+    print(accountt.address_line)
+    
+    cart = CartItem.objects.filter(user=request.user)
+    
+    return render(request, 'accounts/dash.html', {'pro': accountt, 'cart': cart})
 
 
 def forget(request):

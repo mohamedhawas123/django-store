@@ -20,4 +20,3 @@ urlpatterns = [
    
 ]
 
-print(urlpatterns)
