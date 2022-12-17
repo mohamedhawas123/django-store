@@ -8,6 +8,8 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
 from django.core.mail import EmailMessage
+from django.contrib.auth.hashers import make_password, check_password
+
 
 def login(request):
     
@@ -50,21 +52,22 @@ def register(request):
             user.phone_number = phone_number
             user.save()
 
-            current_site = get_current_site()
+            current_site = get_current_site(request)
             mail_subject = "please activate your account"
 
-            message = render_to_string('accounts/account_veri_email', {
+            message = render_to_string('accounts/account_veri_email.html', {
                 'user': user,
                 'domain': current_site,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': default_token_generator.make_token(user)
 
             })
+            print(message)
 
             to_email = email
+
             send_email = EmailMessage(mail_subject, message, to=[to_email])
             send_email.send()
-
 
             messages.success(request, 'register done')
             return redirect('login')
@@ -80,3 +83,53 @@ def logout(request):
 
     user = auth.logout(request)
     return redirect('home')
+
+
+
+def activate(request, uidb64, token):
+
+    # try:
+    #     uid=  urlsafe_base64_decode(uidb64).decode()
+    #     user= Account._default_manager.get(pk=uid)
+    
+    # except(TypeError, ValueError, OverflowError, Account.DoesNotExist):
+    #     user = None
+    
+    # if user is not None and default_token_generator.check_token(token):
+    #     user.is_active = True
+    #     user.save()
+    #     messages.success(request, 'congrats')
+    #     return redirect('login')
+    
+    # else:
+
+    #     messages.error(request, 'something went wrong')
+    #     return redirect('register')
+
+
+
+    return
+    
+    
+
+def dash(request):
+    return render(request, 'accounts/dash.html')
+
+
+def forget(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        password = request.POST.get("password")
+        user = Account.objects.get(email=email)
+        print(user)
+        old_password= request.POST.get("old_password")
+        if user.check_password(old_password):
+            
+            user.password = make_password(password)
+            user.save()
+        else:
+            print("false")
+
+        
+        print("i got here")
+    return render(request, 'accounts/forget.html')

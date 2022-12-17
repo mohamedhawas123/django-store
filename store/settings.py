@@ -148,3 +148,13 @@ MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 
 }
+
+
+EMAIL_HOST = 'smtp.gmail'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'mohamedhawas817@gmail.com'
+EMAIL_HOST_PASSWORD = 'thugstools12345'
+EMAIL_USE_TLS = True
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

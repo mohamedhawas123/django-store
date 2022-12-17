@@ -22,28 +22,30 @@
         {% endif %}
         
       <div class="card-body">
-      <h4 class="card-title mb-4">Sign in</h4>
-      <form method="POST" action="{% url 'login' %}"  >
+      <h4 class="card-title mb-4">Forget Password</h4>
+      <form method="POST" action="{% url 'forget' %}"  >
         {% csrf_token %}
           <div class="form-group">
-			 <input name="email" type="email" class="form-control" placeholder="Email Address" >
-          </div> <!-- form-group// -->
-          <div class="form-group">
-			<input name="password" type="password" class="form-control" placeholder="Password" >
+			 <input name="password" type="password" class="form-control" placeholder="New Password" >
           </div> <!-- form-group// -->
           
+
           <div class="form-group">
-          	<a href="{% url 'forget' %}" class="float-right">Forgot password?</a> 
-           
-          </div> <!-- form-group form-check .// -->
+            <input name="email" type="email" class="form-control" placeholder="your email" >
+         </div> <!-
+
+         <div class="form-group">
+            <input name="old_password" type="password" class="form-control" placeholder="old password" >
+         </div>
+
           <div class="form-group">
-              <button class="btn btn-primary btn-block"> Login  </button>
+              <button class="btn btn-primary btn-block"> Change Password  </button>
           </div> <!-- form-group// -->    
       </form>
       </div> <!-- card-body.// -->
     </div> <!-- card .// -->
 
-     <p class="text-center mt-4">Don't have account? <a href="#">Sign up</a></p>
+     <p class="text-center mt-4">Don't have account? <a href="#">Got a Password</a></p>
      <br><br>
 <!-- ============================ COMPONENT LOGIN  END.// ================================= -->
 
